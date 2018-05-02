@@ -11,10 +11,22 @@ NR==1 {
     for(i=1; i<=NF; i++) {
 	column_names[i] = $i;
     }
+
+    if ("is_attributed" in column_names) {
+	add_dummy_zero = 0;
+    } else {
+	add_dummy_zero = 1;
+    }
 }
+
 NR>1 {
-    /* First we need to check if the combination of column and value exists in the value array. */
-    newline = "";
+
+    if (add_dummy_zero) {
+	newline = "0 ";
+    } else {
+	newline = "";
+    }
+
     for(i=1; i<=NF; i++) {
 
 	/* Ignore the attributed time */
