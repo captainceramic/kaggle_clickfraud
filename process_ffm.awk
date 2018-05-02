@@ -12,7 +12,8 @@ NR==1 {
 	column_names[i] = $i;
     }
 
-    if ("is_attributed" in column_names) {
+    /* If we don't have an 'is_attributed' column then add a dummy zero first. */
+    if (!("is_attributed" in column_names)) {
 	add_dummy_zero = 0;
     } else {
 	add_dummy_zero = 1;
