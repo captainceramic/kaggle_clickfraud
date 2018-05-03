@@ -70,3 +70,11 @@ NR>1 {
     print newline;
     
 }
+
+END {
+    /* Save out the values array */
+    for (value in all_values) {
+	print value, all_values[value] > "values_array.data";
+    }
+    
+}
