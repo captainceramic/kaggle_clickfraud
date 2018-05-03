@@ -30,14 +30,25 @@ NR>1 {
 
     for(i=1; i<=NF; i++) {
 
-	/* Ignore the attributed time */
 	if (column_names[i] == "click_time") {
 	    gsub(/:/, " ", $i);
 	    gsub(/-/, " ", $i);
-	    newline = newline " " i ":1:" mktime($i);
+	    split($i, time_components, " ");
+	    k = 0;
+	    for (l in time_components) {
+		thisval = "timecomponent" k "_" time_components[l];
+		if (!(thisval in all_values)) {
+		    all_values[thisval] = global_count;
+		    global_count++;
+		}
+		newline = newline " " i+k ":" all_values[thisval] ":1";
+		k++;
+				
+	    }
 	    continue;
 	}
 
+	/* Ignore the attributed time */
 	if (column_names[i] == "attributed_time") {
 	    continue;
 	}
@@ -47,7 +58,7 @@ NR>1 {
 	    continue;
 	}
 	
-	thisval = column_names[i] $i;
+	thisval = column_names[i] "_" $i;
 	if (!(thisval in all_values)) {
 	    all_values[thisval] = global_count;
 	    global_count++;
